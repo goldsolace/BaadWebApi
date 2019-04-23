@@ -19,7 +19,7 @@ function config($routeProvider) {
             controller: TrekUserController,
             controllerAs:'vm'
         })
-        .otherwise({
-            redirectTo: "/"
-        });
+        // .otherwise({
+        //     redirectTo: "/"
+        // });
 }
