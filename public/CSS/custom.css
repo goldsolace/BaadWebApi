@@ -1,0 +1,35 @@
+  /* Sticky footer styles
+  -------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+/** { background-color: #121212; }*/
+body {
+  /*background-color: #121212;*/
+  margin-bottom: 90px;
+}
+.padded {
+  padding-top: 30px
+}
+.header {
+  /*position: absolute;*/
+  top: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 164;
+  /*background-color: #121212;*/
+  padding-top: 10px;
+}
+
+ul.nav li a, ul.nav li a:visited {
+    color: #f44242 !important;
+}
+
+ul.nav li a:hover, ul.nav li a:active {
+    color: #b51e1e !important;
+}
+
+ul.nav li.active a {
+    color: #140e68 !important;
+}
