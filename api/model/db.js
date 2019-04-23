@@ -42,5 +42,4 @@ process.once('SIGUSR2', function () {
 })
 
 //Bring the schema and Models
-require('./user.model.js');
 require('./trekking.model.js');
