@@ -18,7 +18,7 @@ function config($routeProvider) {
             templateUrl:'angular-app/trekking/trek-user/trekUser.html',
             controller: TrekUserController,
             controllerAs:'vm'
-        })
+        });
         // .otherwise({
         //     redirectTo: "/"
         // });
