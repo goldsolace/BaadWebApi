@@ -33,3 +33,11 @@ ul.nav li a:hover, ul.nav li a:active {
 ul.nav li.active a {
     color: #140e68 !important;
 }
+
+.special {
+  display: flex;
+}
+
+.special .btn {
+  flex: 1
+}

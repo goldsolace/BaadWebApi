@@ -1,14 +1,4 @@
-<header class="header">
-    <div class="container">
-        <p class="text-muted text-center">
-            <a href="https://forums.rspeer.org/topic/995/free-trial-premium-baad-trekking-completes-temple-trekking-burgh-de-rott-ramble-800k-gp-hr-lumberjack-outfit-xp-tomes-slayer-agility-thieving-firemaking-fishing-mining-woodcutting" target="_blank">
-                <img src="/images/baadtrekking.png" width = "360" height="144" alt="Baad Trekking" />
-            </a>
-        </p>
-    </div>
-</header>
-
-<table id="hiscores" class="table table-striped table-bordered mb-5" style="width:100%; background-color:#222">
+<table id="hiscores" class="table table-striped table-bordered mb-5" style="width:100%">
 	<thead id="headings" class="text-warning">
 		<tr>
 			<th>Username</th>
@@ -22,51 +12,36 @@
 		<tr ng-repeat="trekUser in vm.trekking" repeat-done="initDataTable">
 			<td><a ng-href="#!/trekking/{{trekUser._id}}" class="text-warning">{{trekUser._id}}</a></td>
 			<td class="treks">{{trekUser.treks}}</td>
-			<td class="money">{{trekUser.money}}</td>
+			<td class="money">{{trekUser.money}} gp</td>
 			<td class="runtime">{{trekUser.runtime}}</td>
 			<td class="instances">{{trekUser.instances}}</td>
 		</tr>
 	</tbody>
 </table>
 
-<div class="text-center">
-	<a href="#!/" class="btn btn-large btn-light mx-1 px-5 pt-3"><h3>All Scripts</h3></a>
-</div>
+<h5 class="text-center"><a ng-href="#!/" class="text-warning">All Scripts</a></h5>
 
 <script>
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-
-	async function waitForNG() {
-		var start = performance.now();
-		while (!$('td:first').text() && (performance.now() - start < 1000)) {
-			await sleep(50);
-		}
-		generateTable();
-	}
 
 	$(document).ready(function() {
-		waitForNG();
+        setTimeout(function() { 
+        	$('#hiscores').DataTable({
+				"order": [[ 2, "desc" ]]
+			});
+
+			$('#hiscores').on('draw.dt', function () {
+				setTimeout(function() { 
+					addClass(); } , 10);
+			});
+
+        	var headings = document.getElementById('headings');
+			headings.insertAdjacentHTML('afterend', generateTotal());
+			addClass();
+
+        }, 1000);
     });
 
-    function generateTable() { 
-    	$('#hiscores').DataTable({
-			"order": [[ 2, "desc" ]]
-		});
-
-		$('#hiscores').on('draw.dt', function () {
-			setTimeout(function() { 
-				addClass(); } , 10);
-		});
-
-    	var headings = document.getElementById('headings');
-		headings.insertAdjacentHTML('afterend', generateTotal());
-		addClass();
-
-    }
-
-    function generateTotal() {
+    var generateTotal = function() {
 	    var thead = "<thead><tr><th>Total</th>"
 						+ "<th>"+calcSum(".treks")+"</th>"
 						+ "<th>"+formatRS(calcSum(".money"))+"</th>"
@@ -74,9 +49,9 @@
 						+ "<th>"+calcSum(".instances")+"</th>" 
 					+ "</tr></thead>";
 		return thead;
-	}
+	};
 
-	function calcSum(id) {
+	var calcSum = function(id) {
 	    var sum = 0;
 		$(id).each(function() {
 		    var value = $(this).text();
@@ -88,11 +63,10 @@
 		        sum += parseFloat(value);
 		    }
 		});
-		console.log(id + " " +sum);
 		return sum + "";
-	}
+	};
 
-	function formatSeconds(secStr) {
+	var formatSeconds = function (secStr) {
 	    var sec_num = parseInt(secStr, 10);
 	    var hours   = Math.floor(sec_num / 3600);
 		var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -102,7 +76,7 @@
 		if (minutes < 10) {minutes = "0"+minutes;}
 		if (seconds < 10) {seconds = "0"+seconds;}
 		return hours+" hr "+minutes+" m " + (hours < 1 ? (seconds + " s") : "");
-	}
+	};
 
 	function formatRS(strNum) {
 		var x = parseInt(strNum, 10);

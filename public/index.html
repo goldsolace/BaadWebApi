@@ -20,24 +20,27 @@
     <script src="node_modules/angular-route/angular-route.js"></script>
 
 </head> 
-<body class="" >
-	<header class="header">
-        <div class="container">
-            <p class="text-muted text-center">
-                <a href="https://forums.rspeer.org/topic/995/free-trial-premium-baad-trekking-completes-temple-trekking-burgh-de-rott-ramble-800k-gp-hr-lumberjack-outfit-xp-tomes-slayer-agility-thieving-firemaking-fishing-mining-woodcutting" target="_blank">
-                    <img src="/images/baadtrekking.png" width = "360" height="144" alt="Baad Trekking" />
-                </a>
-            </p>
-        </div>
-    </header>
+<body class="" style="background-image: url('/images/bg.png'); background-repeat: repeat">
 	
-    <div ng-view class="container"></div>
+    <div id="main" ng-view class="container"></div>
    
     <script src="angular-app/app.js"></script>
+
+    <script src="angular-app/landing/landing-controller.js"></script>
+    <script src="angular-app/landing/landing-controller.js"></script>
+    <script src="angular-app/landing/landing-data-factory.js"></script>
+
+
     <script src="angular-app/trekking/trekking-hiscore/trekking-hiscore-controller.js"></script>
     <script src="angular-app/trekking/trek-user/trek-user-controller.js"></script>
     <script src="angular-app/trekking/trekking-data-factory.js"></script>
+
+    <script src="angular-app/herblore/herblore-hiscore/herblore-hiscore-controller.js"></script>
+    <script src="angular-app/herblore/herblore-user/herblore-user-controller.js"></script>
+    <script src="angular-app/herblore/herblore-data-factory.js"></script>
+
     <script src="angular-app/capitalize.js"></script>
+
     
 </body>
 </html>

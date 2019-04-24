@@ -1,0 +1,104 @@
+<h1 class="text-center text-warning">{{vm.trekUser._id}}</h1>
+<table id="trekUser" class="table table-striped table-bordered" style="width:100%">
+    <thead id="headings" class="text-warning">
+        <tr>
+            <th>Treks</th>
+            <th>Money</th>
+            <th>RunTime</th>
+            <th>Instances</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="treks">{{vm.trekUser.treks}}</td>
+            <td class="money">{{vm.trekUser.money}}</td>
+            <td class="runtime">{{vm.trekUser.runtime}}</td>
+            <td class="instances">{{vm.trekUser.instances}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3 class="text-center text-warning">Rewards</h3>
+
+<div class="row justify-content-center mb-5">
+    <div class="list-group col-3">
+        <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index < (vm.rewardLength / 3)">
+            <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
+            <div class="col-3">{{val}}</div>
+        </div>
+    </div>
+    <div class="list-group col-3">
+      <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (vm.rewardLength / 3) && $index < (2 * vm.rewardLength / 3)">
+          <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
+          <div class="col-3">{{val}}</div>
+      </div>
+    </div>
+    <div class="list-group col-3">
+        <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (2 * vm.rewardLength / 3)">
+            <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
+            <div class="col-3">{{val}}</div>
+        </div>
+    </div>
+</div>
+
+
+<h5 class="text-center"><a ng-href="#!/trekking" class="text-warning">Hiscores</a></h5>
+
+<script>
+
+    $(document).ready(function() {
+        setTimeout(function() {
+            calcSum(".money");
+            calcSum(".runtime");
+        }, 1000);
+    });
+
+    var calcSum = function(id) {
+        var sum = 0;
+        $(id).each(function() {
+            var value = $(this).text();
+            if (id.includes("time"))
+                $(this).text(formatSeconds($(this).text()));
+            if (id.includes("money"))
+                $(this).text(formatRS($(this).text()));
+            if(!isNaN(value) && value.length != 0) {
+                sum += parseFloat(value);
+            }
+        });
+        return sum + "";
+    };
+
+    var formatSeconds = function (secStr) {
+        var sec_num = parseInt(secStr, 10);
+        var hours   = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        if (hours   < 10) {hours   = "0"+hours;}
+        if (minutes < 10) {minutes = "0"+minutes;}
+        if (seconds < 10) {seconds = "0"+seconds;}
+        return hours+" hr "+minutes+" m " + (hours < 1 ? (seconds + " s") : "");
+    };
+
+    function formatRS(strNum) {
+        var x = parseInt(strNum, 10);
+        if(isNaN(x)) return strNum;
+        if(x < 1000)
+            return x;
+        if(x < 1000000)
+            return (x/1000).toFixed(2) + "K";
+        if( x < 10000000)
+            return (x/1000000).toFixed(2) + "M";
+        if(x < 1000000000)
+            return (x/1000000).toFixed(2) + "M";
+        if(x < 1000000000000)
+            return (x/1000000000).toFixed(2) + "B";
+        return "1T+";
+    }
+
+    function addClass() {
+        $(".page-link").each(function() {
+            $(this).addClass("text-light bg-warning");
+        });
+    }
+</script>

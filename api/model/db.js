@@ -43,3 +43,4 @@ process.once('SIGUSR2', function () {
 
 //Bring the schema and Models
 require('./trekking.model.js');
+require('./herblore.model.js');

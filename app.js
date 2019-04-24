@@ -4,7 +4,9 @@ var app = express();
 var path = require('path');
 
 var bodyParser = require('body-parser');
-var routes = require('./api/routes/trekking');
+var trekkingRoutes = require('./api/routes/trekking');
+var herbloreRoutes = require('./api/routes/herblore');
+
 
 app.set('port', process.env.PORT || 8080);
 
@@ -20,7 +22,8 @@ app.use('/node_modules',express.static(__dirname +'/node_modules'));
 app.use(bodyParser.urlencoded({extended : false }));
 app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use('/', trekkingRoutes);
+app.use('/', herbloreRoutes);
 
 var server = app.listen(app.get('port'), function() {
     var port = server.address().port;

@@ -1,0 +1,105 @@
+<table id="hiscores" class="table table-striped table-bordered mb-5" style="width:100%">
+	<thead id="headings" class="text-warning">
+		<tr>
+			<th>Username</th>
+			<th>Money</th>
+			<th>RunTime</th>
+			<th>Herbs Cleaned</th>
+			<th>XP Gained</th>
+			<th>Instances</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="herbloreUser in vm.herblore" repeat-done="initDataTable">
+			<td><a ng-href="#!/herblore/{{herbloreUser._id}}" class="text-warning">{{herbloreUser._id}}</a></td>
+			<td class="money">{{herbloreUser.money}} gp</td>
+			<td class="runtime">{{herbloreUser.runtime}}</td>
+			<td class="herbs">{{herbloreUser.herbs}}</td>
+			<td class="xp">{{herbloreUser.xp}}</td>
+			<td class="instances">{{herbloreUser.instances}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<h5 class="text-center"><a ng-href="#!/" class="text-warning">All Scripts</a></h5>
+
+<script>
+
+	$(document).ready(function() {
+        setTimeout(function() { 
+        	$('#hiscores').DataTable({
+				"order": [[ 1, "desc" ]]
+			});
+
+			$('#hiscores').on('draw.dt', function () {
+				setTimeout(function() { 
+					addClass(); } , 10);
+			});
+
+        	var headings = document.getElementById('headings');
+			headings.insertAdjacentHTML('afterend', generateTotal());
+			addClass();
+
+        }, 1000);
+    });
+
+    var generateTotal = function() {
+	    var thead = "<thead><tr><th>Total</th>"
+						+ "<th>"+formatRS(calcSum(".money"))+"</th>"
+						+ "<th>"+formatSeconds(calcSum(".runtime"))+"</th>"
+						+ "<th>"+formatRS(calcSum(".herbs"))+"</th>"
+						+ "<th>"+formatRS(calcSum(".xp"))+"</th>"
+						+ "<th>"+calcSum(".instances")+"</th>" 
+					+ "</tr></thead>";
+		return thead;
+	};
+
+	var calcSum = function(id) {
+	    var sum = 0;
+		$(id).each(function() {
+		    var value = $(this).text();
+		    if (id.includes("time"))
+		    	$(this).text(formatSeconds($(this).text()));
+		    if (id.includes("money") || id.includes("xp") || id.includes("herbs"))
+		    	$(this).text(formatRS($(this).text()));
+		    if(!isNaN(value) && value.length != 0) {
+		        sum += parseFloat(value);
+		    }
+		});
+		return sum + "";
+	};
+
+	var formatSeconds = function (secStr) {
+	    var sec_num = parseInt(secStr, 10);
+	    var hours   = Math.floor(sec_num / 3600);
+		var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+		var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+		if (hours   < 10) {hours   = "0"+hours;}
+		if (minutes < 10) {minutes = "0"+minutes;}
+		if (seconds < 10) {seconds = "0"+seconds;}
+		return hours+" hr "+minutes+" m " + (hours < 1 ? (seconds + " s") : "");
+	};
+
+	function formatRS(strNum) {
+		var x = parseInt(strNum, 10);
+		if(isNaN(x)) return strNum;
+		if(x < 1000)
+			return x;
+		if(x < 1000000)
+			return (x/1000).toFixed(2) + "K";
+		if( x < 10000000)
+			return (x/1000000).toFixed(2) + "M";
+		if(x < 1000000000)
+			return (x/1000000).toFixed(2) + "M";
+		if(x < 1000000000000)
+			return (x/1000000000).toFixed(2) + "B";
+		return "1T+";
+	}
+
+	function addClass() {
+		$(".page-link").each(function() {
+		    $(this).addClass("text-light bg-warning");
+		});
+	}
+</script>

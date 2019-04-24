@@ -1,56 +1,82 @@
-<h1 class="text-center text-warning">{{vm.trekUser._id}}</h1>
-<table id="trekUser" class="table table-striped table-bordered" style="width:100%">
-    <thead id="headings" class="text-warning">
-        <tr>
-            <th>Treks</th>
-            <th>Money</th>
-            <th>RunTime</th>
-            <th>Instances</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="treks">{{vm.trekUser.treks}}</td>
-            <td class="money">{{vm.trekUser.money}}</td>
-            <td class="runtime">{{vm.trekUser.runtime}}</td>
-            <td class="instances">{{vm.trekUser.instances}}</td>
-        </tr>
-    </tbody>
-</table>
+<header class="header">
+    <div class="container">
+        <p class="text-muted text-center">
+            <a href="https://forums.rspeer.org/topic/995/free-trial-premium-baad-trekking-completes-temple-trekking-burgh-de-rott-ramble-800k-gp-hr-lumberjack-outfit-xp-tomes-slayer-agility-thieving-firemaking-fishing-mining-woodcutting" target="_blank">
+                <img src="/images/baadtrekking.png" width = "360" height="144" alt="Baad Trekking" />
+            </a>
+        </p>
+    </div>
+</header>
 
-<h3 class="text-center text-warning">Rewards</h3>
+<div class="card mx-auto mb-5" style="width:80%">
+    <div class="card-header">
+        <h1 class="text-center text-warning">{{vm.trekUser._id}}</h1>
+    </div>
+    <table id="trekUser" class="table table-striped table-bordered" style="width:100%; background-color:#222">
+        <thead id="headings" class="text-warning">
+            <tr>
+                <th>Treks</th>
+                <th>Money</th>
+                <th>RunTime</th>
+                <th>Instances</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="treks">{{vm.trekUser.treks}}</td>
+                <td class="money">{{vm.trekUser.money}}</td>
+                <td class="runtime">{{vm.trekUser.runtime}}</td>
+                <td class="instances">{{vm.trekUser.instances}}</td>
+            </tr>
+        </tbody>
+    </table>
 
-<div class="row justify-content-center mb-5">
-    <div class="list-group col-3">
-        <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index < (vm.rewardLength / 3)">
-            <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
-            <div class="col-3">{{val}}</div>
+    <h3 class="text-center text-warning">Rewards</h3>
+
+    <div class="row justify-content-center mb-5">
+        <div class="list-group col-4">
+            <div class="list-group-item d-flex justify-content-between align-items-center px-5 border-0" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index < (vm.rewardLength / 3)">
+                <div class="text-warning"><strong>{{key | capitalize}}</strong></div>
+                <div class="">{{val}}</div>
+            </div>
         </div>
-    </div>
-    <div class="list-group col-3">
-      <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (vm.rewardLength / 3) && $index < (2 * vm.rewardLength / 3)">
-          <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
-          <div class="col-3">{{val}}</div>
-      </div>
-    </div>
-    <div class="list-group col-3">
-        <div class="list-group-item row" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (2 * vm.rewardLength / 3)">
-            <div class="col-9 text-warning"><strong>{{key | capitalize}}</strong></div>
-            <div class="col-3">{{val}}</div>
+        <div class="list-group col-4">
+          <div class="list-group-item d-flex justify-content-between align-items-center px-5 border-0" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (vm.rewardLength / 3) && $index < (2 * vm.rewardLength / 3)">
+                <div class="text-warning"><strong>{{key | capitalize}}</strong></div>
+                <div class="">{{val}}</div>
+          </div>
+        </div>
+        <div class="list-group col-4">
+            <div class="list-group-item d-flex justify-content-between align-items-center px-5 border-0" style="display:flex !important" ng-repeat="(key, val) in vm.trekUser.rewards" ng-if="$index >= (2 * vm.rewardLength / 3)">
+                <div class="text-warning"><strong>{{key | capitalize}}</strong></div>
+                <div class="">{{val}}</div>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="text-center">
+    <a href="#!/trekking" class="btn btn-large btn-light mx-1 px-5 pt-3"><h3>Hiscores</h3></a>
+</div>
 
-<h5 class="text-center"><a ng-href="#!/trekking" class="text-warning">Hiscores</a></h5>
 
 <script>
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function waitForNG() {
+        var start = performance.now();
+        while (!$('td:first').text() && (performance.now() - start < 1000)) {
+            await sleep(50);
+        }
+        calcSum(".money");
+        calcSum(".runtime");
+    }
+
     $(document).ready(function() {
-        setTimeout(function() {
-            calcSum(".money");
-            calcSum(".runtime");
-        }, 1000);
+        waitForNG();
     });
 
     var calcSum = function(id) {
