@@ -21,7 +21,7 @@
   },
   "homepage": "",
   "dependencies": {
-    "angular": "^1.5.6",
+    "angular": "^1.7.9",
     "angular-route": "^1.5.6",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
